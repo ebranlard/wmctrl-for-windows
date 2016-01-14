@@ -1,48 +1,41 @@
-//declarations
-using system.IO;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
-//more
-
-//namespace here
-
-//class here
-
-//initialize method
+// //declarations
+using System; // For IntPtr
+using System.Runtime.InteropServices; // DllImport
+using System.Diagnostics; // Process
+// using System.Windows.Automation; //  UIAutomationClient.dll 
+// using System.Threading; // For Thread.Sleep
 
 class Program
 {
+    //dll import (can't be in method, but needs to be in class
+    [DllImport("user32.dll")]
+        public static extern void SwitchToThisWindow(IntPtr hWnd);
     static void Main()
     {
-        //related .dll import
-        [DllImport("user32.dll")]
-            public static extern void SwitchToThisWindow(IntPtr hWnd);
-
-        String ProcWindow = "main";
+        // --------------------------------------------------------------------------------
+        // ---  
+        // --------------------------------------------------------------------------------
+        String procName = "MATLAB";
         //function which calls switchWindow() is here but not important
-
-        Process[] procs = Process.GetProcessesByName(ProcWindow);
-        foreach (Process proc in procs)
-        {
-            //switch to process by name
+        // // 
+        Process[] procs = Process.GetProcessesByName(procName);
+        int nProcs = procs.Length;
+        if (nProcs < 1) {
+            Console.WriteLine("No process found for name: {0}", procName);
+        }else{
+            // We'll use the first window we found
+            Process proc=procs[0];
+            if (nProcs >1) {
+                Console.WriteLine("{0} processes found with name: {0}",nProcs,procName);
+                Console.WriteLine("Using first process:");
+                Console.WriteLine("Process Name: {0} ID: {1} Title: {2}", proc.ProcessName, proc.Id, proc.MainWindowTitle);
+            }
+            // --- Switching to window using user32.dll function
             SwitchToThisWindow(proc.MainWindowHandle);
 
-            Console.WriteLine("Process: {0} ID: {1} Window title: {2}", proc.ProcessName, proc.Id, proc.MainWindowTitle);
-        }
+            // --- Alternative method using AutomationElement
+//             AutomationElement element = AutomationElement.FromHandle(proc.MainWindowHandle);
+//             if (element != null) { element.SetFocus(); }
+        } // Proc Window found
     }
-}
-}
-
-
-// --------------------------------------------------------------------------------
-// ---  
-// --------------------------------------------------------------------------------
-http://stackoverflow.com/questions/2315561/correct-way-in-net-to-switch-the-focus-to-another-application
-// --------------------------------------------------------------------------------
-// --- 
-// --------------------------------------------------------------------------------
-AutomationElement element = AutomationElement.FromHandle(process.MainWindowHandle);
-if (element != null)
-{
-    element.SetFocus();
 }
