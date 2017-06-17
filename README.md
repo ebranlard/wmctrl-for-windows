@@ -8,7 +8,7 @@ The program is written in C-sharp.
 This repository contains the latest binary and the source code (compatible Mono or Microsoft).
 
 ## Binaries
-The latest binary is provided in the folder [_bin](https://github.com/elmanuelito/wmctrl-for-windows/tree/master/_bin)
+The latest binary is available [here](https://github.com/elmanuelito/wmctrl-for-windows/raw/master/_bin/wmctrl.exe)
 
 ## Features/ usage
         
