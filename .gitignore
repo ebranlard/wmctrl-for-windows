@@ -1,1 +1,2 @@
-*.exe
+wmctrl.exe
+_dev/*.exe
